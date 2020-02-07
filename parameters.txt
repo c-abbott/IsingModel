@@ -1,0 +1,5 @@
+1.0, 3.0, 0.1, 10000, 100, 10, 100, glauber, 50
+
+# Simulation Parameters
+# Minimum Temperature, Maximum Temperature, Temperature Step, Sweeps,
+# EQM Sweeps, Sweeps Between Data Collection, Bootstrap Samples, Lattice Dynamics, Lattice Size.
