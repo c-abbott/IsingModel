@@ -26,7 +26,7 @@ def main():
 
         min_temp = float(items[0])  # Minimum temperature
         max_temp = float(items[1])  # Maximum temperature.
-        temp_step = float(items[2]) # Temperature step.
+        temp_step = float(items[2])  # Temperature step.
         sweeps = int(items[3])      # No. of sweeps.
         eqm_sweeps = int(items[4])  # No. of EQM sweeps.
         n = int(items[5])           # How often to collect data
@@ -44,21 +44,21 @@ def main():
     heat_cap_errors = []
     chis = []
     chi_errors = []
+    lattice = IsingModel(size=lattice_size, temp=temp_range[0],
+                         ini='u', dynamics=dynamics)
 
-    # Simulation begins.
     for i in range(temp_range.size):
-        lattice = IsingModel(size=lattice_size, temp=temp_range[i],
-                            ini='u', dynamics=dynamics)
+        # print(i)
+        lattice.temp = temp_range[i]
         energy_per_temp = []
         mag_per_temp = []
 
         # Glauber sweeps of lattice.
         if lattice.dynamics == "glauber":
             for j in range(sweeps):
-                print(j)
-                for k in range(lattice_size[0]*lattice_size[1]):
+                for k in range(lattice.size[0]**2):
                     lattice.glauber()
-                    if (j+1) >= eqm_sweeps and (j+1) % n == 0:
+                    if j >= eqm_sweeps and j % n == 0:
                         energy_per_temp.append(lattice.total_E)
                         mag_per_temp.append(lattice.get_abs_M())
 
@@ -77,9 +77,9 @@ def main():
         # Kawasaki sweeps of lattice.
         elif lattice.dynamics == "kawasaki":
             for l in range(sweeps):
-                for m in range(lattice_size[0]*lattice_size[1]):
+                for m in range(lattice.size[0]**2):
                     lattice.kawasaki()
-                    if (l+1) >= eqm_sweeps and (l+1) % n == 0:
+                    if l >= eqm_sweeps and l % n == 0:
                         energy_per_temp.append(lattice.total_E)
 
             # Appending average values to list for file writer.
